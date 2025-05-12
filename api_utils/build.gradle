@@ -1,0 +1,61 @@
+plugins {
+    alias(libs.plugins.android.library)
+    id 'maven-publish'
+}
+
+android {
+    namespace 'com.sly.sdks.utils'
+    compileSdk 35
+
+    defaultConfig {
+        minSdk 23
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+    // 以下是本地构建配置，用于发布到maven仓库,显式声明发布配置（关键修复）
+    publishing {
+        singleVariant("release") {
+            // 显式声明发布配置
+            withSourcesJar()
+            // doc发布需要添加"org.jetbrains.dokka:dokka-gradle-plugin:1.9.10"插件
+            withJavadocJar()
+        }
+    }
+}
+
+dependencies {
+    implementation libs.appcompat
+    implementation libs.material
+    testImplementation libs.junit
+    androidTestImplementation libs.ext.junit
+    androidTestImplementation libs.espresso.core
+}
+
+publishing {
+    publications {
+        release(MavenPublication) {
+            // 注：这里设置的groupId和artifactId和version等，在JitPack编译的时候不会用到，
+            // 会被替换成 `com.github.User:Repo:Tag` 这样的样式
+            groupId = 'com.sly.sdks'
+            artifactId = 'utils'
+//当工程有多个module时，这个id就是区分依赖的，例如：'com.gitee.slyer.jitpacksdks:utils:0.2'
+            version = '1.0'
+
+            afterEvaluate {
+                from components.release // 表示发布 release（jitpack 都不会使用到）
+            }
+        }
+    }
+}
