@@ -15,12 +15,12 @@ import androidx.core.view.WindowInsetsCompat;
 import com.amap.api.maps.AMapOptions;
 import com.amap.api.maps.MapView;
 import com.amap.api.maps.MapsInitializer;
-import com.lois.aarlib.AarUtils;
 
 
 public class MainActivity extends AppCompatActivity {
     private LinearLayout rootLayout;
     private MapView mMapView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
