@@ -26,7 +26,7 @@ public class InterfaceHelper {
             return this.myInvoke();
         }
 
-        abstract Object myInvoke();
+        public abstract Object myInvoke();
 
         public Object getProxy() {
             return proxy;
@@ -39,5 +39,8 @@ public class InterfaceHelper {
         public ArrayList<Object> getArgs() {
             return args;
         }
+    }
+
+    public abstract static class MyInvocationHandler2 implements InvocationHandler {
     }
 }
