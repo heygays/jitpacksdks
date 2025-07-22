@@ -11,7 +11,7 @@ import java.util.Collections;
  */
 public class InterfaceHelper {
     //uts中实现InvocationHandler接口就会报错，提示invoke方法参数类型各种不对
-    public abstract static class MyInvocationHandler implements InvocationHandler {
+    public abstract static class SlyInvocationHandler implements InvocationHandler {
         private Object proxy;
         private Method method;
         private ArrayList<Object> args = new ArrayList<>();
@@ -20,13 +20,14 @@ public class InterfaceHelper {
         public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
             this.proxy = proxy;
             this.method = method;
+            this.args.clear();
             if (args != null) {
                 Collections.addAll(this.args, args);
             }
-            return this.myInvoke();
+            return this.theInvoke();
         }
 
-        public abstract Object myInvoke();
+        public abstract Object theInvoke();
 
         public Object getProxy() {
             return proxy;
@@ -39,8 +40,5 @@ public class InterfaceHelper {
         public ArrayList<Object> getArgs() {
             return args;
         }
-    }
-
-    public abstract static class MyInvocationHandler2 implements InvocationHandler {
     }
 }
